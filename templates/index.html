@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Teacher & Student AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .output-section {
+            margin-top: 30px;
+        }
+        
+        .output-box {
+            margin-bottom: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .output-header {
+            padding: 15px;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2em;
+        }
+        
+        .student-header {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+        }
+        
+        .teacher-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .output-content {
+            padding: 20px;
+            background: #f9f9f9;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            min-height: 100px;
+            color: #333;
+        }
+        
+        .empty-state {
+            color: #999;
+            font-style: italic;
+        }
+        
+        .icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Multi-Agent Teacher & Student AI</h1>
+        <p class="subtitle">Enter a question or Python code, and watch two AI agents collaborate!</p>
+        
+        <form method="POST">
+            <div class="input-section">
+                <label for="user_input">📝 Your Question or Code:</label>
+                <textarea 
+                    id="user_input" 
+                    name="user_input" 
+                    rows="6" 
+                    placeholder="Example: Write a Python function to calculate factorial of a number."
+                    required>{{ user_input }}</textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">🚀 Generate Answer & Evaluation</button>
+        </form>
+        
+        {% if student_output or teacher_feedback %}
+        <div class="output-section">
+            <div class="output-box">
+                <div class="output-header student-header">
+                    <span class="icon">🎓</span>Student Agent Output
+                </div>
+                <div class="output-content">
+                    {% if student_output %}
+                        {{ student_output }}
+                    {% else %}
+                        <span class="empty-state">No output yet...</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="output-box">
+                <div class="output-header teacher-header">
+                    <span class="icon">👩‍🏫</span>Teacher Agent Feedback
+                </div>
+                <div class="output-content">
+                    {% if teacher_feedback %}
+                        {{ teacher_feedback }}
+                    {% else %}
+                        <span class="empty-state">No feedback yet...</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
